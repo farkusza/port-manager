@@ -210,20 +210,21 @@ class Scanner:
         line = line.strip()
         if not line.startswith("LISTEN"):
             return []
+        parts = line.split()
+        if len(parts) < 4:
+            return []
+        local_addr = parts[3]
+        if ":" not in local_addr:
+            return []
+        try:
+            port = int(local_addr.rsplit(":", 1)[1])
+        except (ValueError, IndexError):
+            return []
         import re
         m = re.search(r'users:\(\("([^"]+)",pid=(\d+),', line)
-        if not m:
-            m2 = re.search(r":(\d+)\s+\S+\s+\S+\s*$", line)
-            if m2:
-                return [LiveListener(port=int(m2.group(1)), pid=0, namespace="wsl")]
-            return []
-        process_name = m.group(1)
-        pid = int(m.group(2))
-        port_m = re.search(r":(\d+)\s+\S+\s*$", line)
-        if not port_m:
-            return []
-        return [LiveListener(port=int(port_m.group(1)), pid=pid,
-                             namespace="wsl", process_name=process_name)]
+        process_name = m.group(1) if m else ""
+        pid = int(m.group(2)) if m else 0
+        return [LiveListener(port=port, pid=pid, namespace="wsl", process_name=process_name)]
 
     def scan_windows(self) -> List[LiveListener]:
         result = self._runcmd(["netstat", "-ano"])
