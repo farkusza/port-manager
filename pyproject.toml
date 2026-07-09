@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ports-registry"
+name = "port-manager"
 version = "0.1.0"
-description = "Local port bookkeeping for Windows + WSL developers — track which projects own which ports, cross-referenced against live listeners."
+description = "Zero-dep dev port allocator with live scan, health probes, and HTTP status server. CLI + library."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
@@ -13,13 +13,14 @@ authors = [
     { name = "Kyle Farkus", email = "kyle@farkusdynamics.co.za" },
 ]
 keywords = [
-    "ports",
+    "port",
+    "allocator",
+    "scan",
     "networking",
-    "windows",
-    "wsl",
     "developer-tools",
     "cli",
-    "registry",
+    "devops",
+    "windows",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -35,18 +36,23 @@ classifiers = [
     "Topic :: System :: Networking",
     "Topic :: Utilities",
 ]
+# port-manager is zero-dep at the core. `rich` is optional — falls back to
+# plain text if not installed.
+dependencies = []
+
+[project.optional-dependencies]
+rich = ["rich>=13.0"]
 
 [project.urls]
-Homepage = "https://github.com/farkusza/ports-registry"
-Issues = "https://github.com/farkusza/ports-registry/issues"
-Changelog = "https://github.com/farkusza/ports-registry/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/farkusza/port-manager"
+Issues = "https://github.com/farkusza/port-manager/issues"
+Changelog = "https://github.com/farkusza/port-manager/blob/main/CHANGELOG.md"
 
 [project.scripts]
-ports = "ports:main"
+port-manager = "port_manager.cli:main"
 
-[tool.setuptools]
-py-modules = ["ports"]
-include-package-data = true
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 "*" = ["*.md", "*.txt"]

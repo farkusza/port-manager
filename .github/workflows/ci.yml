@@ -65,14 +65,14 @@ jobs:
       - name: Smoke-test the .exe
         shell: cmd
         run: |
-          .\dist\ports.exe --help
-          .\dist\ports.exe list
+          .\dist\port-manager.exe --help
+          .\dist\port-manager.exe list
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ports-windows-exe
-          path: dist/ports.exe
+          name: port-manager-windows-exe
+          path: dist/port-manager.exe
           if-no-files-found: error
 
   publish-pypi:
@@ -83,7 +83,7 @@ jobs:
 
     environment:
       name: pypi
-      url: https://pypi.org/p/ports-registry
+      url: https://pypi.org/p/port-manager
 
     permissions:
       id-token: write   # for PyPI trusted publishing (OIDC)
@@ -115,7 +115,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
 
     permissions:
-      contents: write   # to create the release
+      contents: write
 
     steps:
       - name: Checkout
@@ -138,5 +138,5 @@ jobs:
       - name: Create GitHub release + attach .exe
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/ports.exe
+          files: dist/port-manager.exe
           generate_release_notes: true

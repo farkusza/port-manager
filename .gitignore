@@ -1,6 +1,9 @@
 __pycache__/
 *.pyc
 *.pyo
+*.claim
+*.jsonl
+*.lock
 .ports
 registry.db
 *.db-journal
@@ -13,7 +16,6 @@ registry.db
 # Build artifacts
 build/
 dist/
-*.egg-info/
 
 # PyInstaller
 *.spec.bak

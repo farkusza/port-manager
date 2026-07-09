@@ -1,35 +1,32 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec for ports-registry.
+"""PyInstaller spec for port-manager.
 
-Builds a single-file standalone `ports.exe` for Windows users without pip.
-Stdlib-only, so the resulting binary is small (~10-15 MB) and fast to start.
+Builds a single-file standalone `port-manager.exe` for Windows users without pip.
+Zero-dep at the core, so the resulting binary is small (~10-15 MB) and fast to start.
 
 Build:
     pip install pyinstaller
     pyinstaller ports.spec --clean --noconfirm
 
 Output:
-    dist/ports.exe
+    dist/port-manager.exe
 """
 from pathlib import Path
 
 block_cipher = None
 
 # Single-file binary, console subsystem (CLI, not GUI).
-# --onefile produces one .exe that contains the interpreter + stdlib + script.
-# --console keeps stdout/stderr attached for a CLI.
 a = Analysis(
-    ['ports.py'],
-    pathex=[],
+    ['src/port_manager/cli.py'],
+    pathex=['src'],
     binaries=[],
     datas=[],
-    hiddenimports=[],   # stdlib only — nothing to hide
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[
         # Trim the binary by skipping stdlib modules we don't touch.
-        # PyInstaller is conservative; this list is safe to grow.
         'tkinter',
         'test',
         'unittest',
@@ -55,19 +52,17 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='ports',
+    name='port-manager',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,           # UPX compresses the binary if installed; safe to leave on
+    upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,       # CLI — keep console window attached
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    # Icon would go here; leaving None for the default Python icon.
-    # icon='ports.ico',
 )
