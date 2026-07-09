@@ -9,3 +9,27 @@ registry.db
 .pytest_cache/
 .tox/
 *.egg-info/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# PyInstaller
+*.spec.bak
+# (ports.spec is committed intentionally — PyInstaller build is reproducible)
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local config / secrets
+.env
+*.local

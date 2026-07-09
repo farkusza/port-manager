@@ -26,4 +26,12 @@ def test_parse_ss_listening_line_wsl():
 def test_parse_non_listening_lines_return_empty():
     assert Scanner.parse_netstat_line("  TCP    0.0.0.0:135         0.0.0.0:0              LISTENING") == []
     assert Scanner.parse_netstat_line("  TCP    127.0.0.1:8000         127.0.0.1:5432         ESTABLISHED 28944") == []
-    assert Scanner.parse_ss_line("LISTEN 0  128  0.0.0.0:111  0.0.0.0:*") == []
+    # Kernel listeners (no users:(...) block) ARE still listeners — surface them
+    # with pid=0/process_name="" so the registry knows the port is in use even
+    # when it can't identify the owner.
+    kernel = Scanner.parse_ss_line("LISTEN 0  128  0.0.0.0:111  0.0.0.0:*")
+    assert len(kernel) == 1
+    assert kernel[0].port == 111
+    assert kernel[0].pid == 0
+    assert kernel[0].process_name == ""
+    assert kernel[0].namespace == "wsl"
