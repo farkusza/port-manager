@@ -1,6 +1,9 @@
 name: ci
 
-on:
+# Note: "on" must be quoted — YAML 1.1 treats bare `on` as boolean True, which
+# silently drops the trigger and makes GitHub Actions cancel every job.
+
+"on":
   push:
     branches: [main]
   pull_request:
