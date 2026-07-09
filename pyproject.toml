@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "port-manager"
+name = "farkus-port-manager"
 version = "0.1.0"
 description = "Zero-dep dev port allocator with live scan, health probes, and HTTP status server. CLI + library."
 readme = "README.md"
@@ -49,6 +49,9 @@ Issues = "https://github.com/farkusza/port-manager/issues"
 Changelog = "https://github.com/farkusza/port-manager/blob/main/CHANGELOG.md"
 
 [project.scripts]
+# CLI binary name stays "port-manager" — short, the name the user types.
+# The pip package name is "farkus-port-manager" (PyPI has a collision on
+# the bare name; see pyproject.toml [project].name).
 port-manager = "port_manager.cli:main"
 
 [tool.setuptools.packages.find]

@@ -3,8 +3,8 @@
 > Zero-dep dev port allocator with live scan, health probes, and an HTTP status server.
 > **No daemon. No OS-level port locking.** State lives in `%LOCALAPPDATA%\port-manager\` on Windows, `~/.local/state/port-manager/` on Linux/macOS.
 
-[![PyPI](https://img.shields.io/pypi/v/port-manager)](https://pypi.org/project/port-manager/)
-[![Python](https://img.shields.io/pypi/pyversions/port-manager)](https://pypi.org/project/port-manager/)
+[![PyPI](https://img.shields.io/pypi/v/farkus-port-manager)](https://pypi.org/project/farkus-port-manager/)
+[![Python](https://img.shields.io/pypi/pyversions/farkus-port-manager)](https://pypi.org/project/farkus-port-manager/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/farkusza/port-manager/ci.yml)](https://github.com/farkusza/port-manager/actions)
 
@@ -19,9 +19,12 @@ Optional Rich integration: install `pip install port-manager[rich]` for tables +
 ### pip (developers)
 
 ```bash
-pip install port-manager
+# NOTE: PyPI has the bare "port-manager" name (unrelated project, Portuguese
+# description). Our PyPI package is "farkus-port-manager"; the CLI binary
+# you invoke after install is still "port-manager".
+pip install farkus-port-manager
 # or with rich tables + progress bars:
-pip install port-manager[rich]
+pip install farkus-port-manager[rich]
 ```
 
 ### Standalone .exe (Windows users without pip)
